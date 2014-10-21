@@ -22,6 +22,7 @@
     "autoload": {
         "psr-0": { "Leyer\\TranslationAdditionBundle\\": "" }
     },
+    "target-dir": "Leyer/TranslationAdditionBundle",
     "minimum-stability": "dev",
     "prefer-stable": true,
     "config": {
