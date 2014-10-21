@@ -71,6 +71,7 @@ Leyer.Translator.prototype = {
     {
         trans.attr('contenteditable', false);
         trans.data('value', trans.text());
+        trans.addClass('leyer-flash');
 
         jQuery.ajax({
             type: "PUT",
@@ -78,7 +79,8 @@ Leyer.Translator.prototype = {
             data: {
                 message: trans.text()
             },
-            success: function(data) {
+            success: function() {
+                trans.removeClass('leyer-flash');
             }
         });
     }
