@@ -81,6 +81,12 @@ Leyer.Translator.prototype = {
             },
             success: function() {
                 trans.removeClass('leyer-flash');
+                trans.attr('title', '');
+            },
+            error: function(response) {
+                trans.removeClass('leyer-flash');
+                trans.addClass('leyer-error');
+                trans.attr('title', response.statusText);
             }
         });
     }
