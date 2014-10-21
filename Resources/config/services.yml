@@ -1,0 +1,24 @@
+parameters:
+    jms_translation.updater.class: Leyer\TranslationAdditionBundle\Translation\Updater
+    leyer.translation_addition.templating.helper.translator.class: Leyer\TranslationAdditionBundle\Templating\Helper\TranslatorHelper
+    leyer.translation_addition.templating.extension.translation.class: Leyer\TranslationAdditionBundle\Templating\Twig\TranslationExtension
+
+services:
+    leyer.translation_addition.templating.helper.translator:
+        class: %leyer.translation_addition.templating.helper.translator.class%
+        arguments:
+            - @templating.helper.translator
+            - @translator
+            - @jms_translation.config_factory
+            - @jms_translation.loader_manager
+            - @router
+        tags:
+            - { name: templating.helper, alias: translator }
+
+    leyer.translation_addition.templating.extension.translation:
+        class: %leyer.translation_addition.templating.extension.translation.class%
+        public: false
+        arguments:
+          - @it.translation_addition.templating.helper.translator
+        tags:
+          - { name: twig.extension }

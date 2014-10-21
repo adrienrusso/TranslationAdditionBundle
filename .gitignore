@@ -1,0 +1,16 @@
+# common trashes
+*~
+*.DS_Store
+*.project
+*.settings
+*.tmp
+*.swp
+*sftp-settings.json
+*.sublime*
+
+# IDE craps
+*nbproject
+*.idea
+*atlassian-ide-plugin.xml
+*catalog.xml
+*.iml

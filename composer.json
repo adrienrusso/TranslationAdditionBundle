@@ -1,0 +1,35 @@
+{
+    "name": "leyer/translation-addition",
+    "type": "library",
+    "description": "Jms translator bundle additions",
+    "keywords": [
+        "jms",
+        "translator",
+        "addition",
+        "inline"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name":     "Adrien Russo",
+            "email": "contact@adrienrusso.com"
+        }
+    ],
+    "require": {
+        "php":              ">=5.4.0",
+        "jms/translation-bundle":  ">=1.1"
+    },
+    "autoload": {
+        "psr-4": { "Leyer\\TranslationAddition\\": "src/" }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "bin-dir": "bin"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "*"
+        }
+    }
+}

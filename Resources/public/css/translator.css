@@ -1,0 +1,8 @@
+.untranslated {
+    color: red;
+    border: 1px solid red;
+}
+
+.leyer-button {
+    display: none;
+}
