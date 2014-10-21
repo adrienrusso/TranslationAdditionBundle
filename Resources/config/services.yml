@@ -19,6 +19,6 @@ services:
         class: %leyer.translation_addition.templating.extension.translation.class%
         public: false
         arguments:
-          - @it.translation_addition.templating.helper.translator
+          - @leyer.translation_addition.templating.helper.translator
         tags:
           - { name: twig.extension }
