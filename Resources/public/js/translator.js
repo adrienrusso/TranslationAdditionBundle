@@ -46,6 +46,7 @@ Leyer.Translator.prototype = {
                     .find('ins.leyer-translator')
                     .attr('contenteditable', true)
                     .focus();
+            e.stopPropagation();
         });
 
         jQuery('body').on('click', '.leyer-button.save' ,function(e) {
@@ -57,6 +58,7 @@ Leyer.Translator.prototype = {
             self.removeContainer(
                 jQuery(e.currentTarget).closest('.leyer-translator-container')
             );
+            e.stopPropagation();
         });
     },
     removeContainer: function(container)

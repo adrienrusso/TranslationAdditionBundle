@@ -6,7 +6,9 @@
         "jms",
         "translator",
         "addition",
-        "inline"
+        "inline",
+        "symfony",
+        "javascript"
     ],
     "license": "MIT",
     "authors": [
