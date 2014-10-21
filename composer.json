@@ -20,7 +20,7 @@
         "jms/translation-bundle":  ">=1.1"
     },
     "autoload": {
-        "psr-0": { "Leyer\\TranslationAddition\\": "" }
+        "psr-0": { "Leyer\\TranslationAdditionBundle\\": "" }
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
