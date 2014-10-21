@@ -8,65 +8,76 @@ var Leyer = {
 Leyer.Translator.prototype = {
     constructor: Leyer.Translator,
 
-    defaults: {
-        config: {}
-    },
-    options: {},
-
-    /**
-     * Initialization
-     */
     init: function() {
         this.bindEvents();
     },
     bindEvents: function() {
         var self = this;
-        jQuery('ins.leyer-translator').on('mouseover', function(e){
-            console.log(jQuery(e.currentTarget).find('a').length == 0);
-            if (jQuery(e.currentTarget).find('a').length == 0) {
-                jQuery(e.currentTarget).append(
-                    jQuery('<a/>', {
-                        'href': '#',
-                        'text': ' Edit'
+        jQuery('body').on('mouseover', 'ins.leyer-translator' ,function(e) {
+            if (jQuery(e.currentTarget).closest('.leyer-translator-container').length == 0) {
+                jQuery(e.currentTarget).wrap(
+                    jQuery('<span/>', {
+                        'class': 'leyer-translator-container'
                     })
+                );
+                jQuery('<a/>', {
+                    'href': '#',
+                    'data-parent': jQuery(e.currentTarget).data('id'),
+                    'class': 'leyer-button edit',
+                    'text': 'Edit'
+                }).insertAfter(e.currentTarget);
+            }
+        });
+
+        jQuery('body').on('mouseleave', '.leyer-translator-container' ,function(e) {
+            var trans = jQuery(e.currentTarget).find('ins.leyer-translator');
+            if( jQuery(e.currentTarget).find('.leyer-button.save').length == 0 || trans.data('value') == trans.text()) {
+                self.removeContainer(
+                    jQuery(e.currentTarget)
                 );
             }
         });
 
-        $('body').on('click', 'ins.leyer-translator a' ,function(e) {
-            e.preventDefault();
-            var parent = jQuery(e.currentTarget).closest('ins.leyer-translator');
-            parent.attr('contenteditable', true);
-            parent.focus();
+        jQuery('body').on('click', '.leyer-button.edit' ,function(e) {
+            jQuery(e.currentTarget).text('Save')
+                .removeClass('edit')
+                .addClass('save')
+                .closest('.leyer-translator-container')
+                    .find('ins.leyer-translator')
+                    .attr('contenteditable', true)
+                    .focus();
         });
 
-        $('ins.leyer-translator').on('focus' ,function(e) {
-            e.preventDefault();
+        jQuery('body').on('click', '.leyer-button.save' ,function(e) {
+            var trans = jQuery(e.currentTarget)
+                .closest('.leyer-translator-container')
+                .find('ins.leyer-translator');
+
+            self.save(trans);
+            self.removeContainer(
+                jQuery(e.currentTarget).closest('.leyer-translator-container')
+            );
         });
+    },
+    removeContainer: function(container)
+    {
+        var trans = container.find('ins.leyer-translator');
+        trans.text(trans.data('value'));
+        container.replaceWith(trans);
+    },
+    save: function(trans)
+    {
+        trans.attr('contenteditable', false);
+        trans.data('value', trans.text());
 
-        this.form.find('form').submit(function(e){
-            e.preventDefault();
-            var form = jQuery(this);
-            jQuery.ajax({
-                type: "PUT",
-                url: jQuery(form.find('.form-input-container')).data('url'),
-                data: {
-                    message: ''
-                },
-                success: function(data) {
-                    var trans = jQuery('.leyer-translator[data-id="'+
-                        jQuery(form.find('.form-input-container')).data('id')+'"]');
-
-                    trans.data('value', data.trans);
-                    trans.text(data.trans);
-                },
-                error:function (xhr){
-                    var response = jQuery.parseJSON(xhr.responseText);
-                    var error = self.form.find('.error');
-                    error.text(response.error)
-                    error.show();
-                }
-            });
+        jQuery.ajax({
+            type: "PUT",
+            url: trans.data('url'),
+            data: {
+                message: trans.text()
+            },
+            success: function(data) {
+            }
         });
     }
 }

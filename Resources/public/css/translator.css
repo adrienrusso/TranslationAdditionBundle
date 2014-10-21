@@ -4,5 +4,15 @@
 }
 
 .leyer-button {
-    display: none;
+    padding-left: 5px;
+    margin: 0;
+    display: none !important;
+}
+
+.leyer-button.save {
+    display: inline !important;
+}
+
+.leyer-translator-container:hover .leyer-button {
+    display: inline !important;
 }
