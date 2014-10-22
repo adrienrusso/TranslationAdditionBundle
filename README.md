@@ -16,12 +16,18 @@ Install the bundle with composer:
 You have to register the  bundle in `app/AppKernel.php`:
 
 ``` php
-    public function registerBundles()
-    {
-        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
-            $bundles[] = new Leyer\TranslationAdditionBundle\LeyerTranslationAdditionBundle();
-        }
+public function registerBundles()
+{
+    if (in_array($this->getEnvironment(), ['dev', 'test'])) {
+        $bundles[] = new Leyer\TranslationAdditionBundle\LeyerTranslationAdditionBundle();
     }
+}
+```
+
+Publish assets:
+
+``` bash
+php app/console assets:install --symlink web
 ```
     
 JQuery is required for inline edition [https://github.com/jquery/jquery], it can be installed with [http://bower.io/].
@@ -57,32 +63,20 @@ Now you must include js and css files:
 
 ``` twig
 {% if app.environment == 'dev' %}
-    {% javascripts
-        '@LeyerTranslationAdditionBundle/Resources/public/js/translator.js'
-    %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
-
-
-    <script type="text/javascript">
-        jQuery.noConflict();
-        (function($) {
-            var LeyerTranslator;
-            $(function() {
-                LeyerTranslator = new Leyer.Translator();
-            });
-        })(jQuery);
-
-    </script>
+    <script src="{{ asset('bundles/leyertranslationaddition/js/translator.js') }}" type="text/javascript">
+            jQuery.noConflict();
+            (function($) {
+                var LeyerTranslator;
+                $(function() {
+                    LeyerTranslator = new Leyer.Translator();
+                });
+            })(jQuery);
+        </script>
 {% endif %}
 ```
 
 ``` twig
 {% if app.environment == 'dev' %}
-    {% stylesheets
-     	'@LeyerTranslationAdditionBundle/Resources/public/css/translator.css'
-    %}
-    	<link rel="stylesheet" href="{{ asset(asset_url) }}"/>
-	{% endstylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/leyertranslationaddition/css/translator.css') }}"/>
 {% endif %}
 ```
