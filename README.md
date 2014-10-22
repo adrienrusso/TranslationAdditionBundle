@@ -59,7 +59,7 @@ jms_translation:
             output_dir: %kernel.root_dir%/Resources/translations
 ```
 
-If you want to used your own updater, an interface is available [TranslationUpdaterInterface](https://github.com/adrienrusso/TranslationAdditionBundle/blob/master/Model/TranslationUpdaterInterface.php):
+If you want to used your own updater, you must implement [TranslationUpdaterInterface](https://github.com/adrienrusso/TranslationAdditionBundle/blob/master/Model/TranslationUpdaterInterface.php) and enable your updater service in the configuration:
 
 ``` yaml
 leyer_translation_addition:
