@@ -1,7 +1,7 @@
 {
     "name": "leyer/translation-addition",
     "type": "library",
-    "description": "Jms translator bundle additions",
+    "description": "This bundles enables edition of translations directly from your application user interface using Javascript.",
     "keywords": [
         "jms",
         "translator",
@@ -19,7 +19,9 @@
         }
     ],
     "require": {
-        "php":              ">=5.4.0",
+        "php":              ">=5.4.0"
+    },
+    "require-dev": {
         "jms/translation-bundle":  ">=1.1"
     },
     "autoload": {
