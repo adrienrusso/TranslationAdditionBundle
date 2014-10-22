@@ -15,12 +15,14 @@ Install the bundle with composer:
 
 You have to register the  bundle in `app/AppKernel.php`:
 
+``` php
     public function registerBundles()
     {
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {
             $bundles[] = new Leyer\TranslationAdditionBundle\LeyerTranslationAdditionBundle();
         }
     }
+```
     
 JQuery is required for inline edition [https://github.com/jquery/jquery], it can be installed with [http://bower.io/].
 
@@ -32,7 +34,7 @@ Usage
 
 Inline edtion require the Translation Web UI of [https://github.com/schmittjoh/JMSTranslationBundle], please refer to [http://jmsyst.com/bundles/JMSTranslationBundle].
 
-```
+``` yaml
 JMSTranslationBundle_ui:
    resource: @JMSTranslationBundle/Controller/
    type:     annotation
@@ -41,7 +43,7 @@ JMSTranslationBundle_ui:
 
 At least one configuration must be present:
 
-```
+``` yaml
 jms_translation:
     configs:
         app:
@@ -53,7 +55,7 @@ The translation api is now available.
 
 Now you must include js and css files:
 
-```
+``` twig
 {% if app.environment == 'dev' %}
     {% javascripts
         '@LeyerTranslationAdditionBundle/Resources/public/js/translator.js'
@@ -75,7 +77,7 @@ Now you must include js and css files:
 {% endif %}
 ```
 
-```
+``` twig
 {% if app.environment == 'dev' %}
     {% stylesheets
      	'@LeyerTranslationAdditionBundle/Resources/public/css/translator.css'
