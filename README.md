@@ -1,7 +1,7 @@
 TranslationAdditionBundle
 =========================
 
-This bundle adds some translation features that can be useful during the development process.
+This bundles enables edition of translations directly from your application user interface using Javascript.
 
 [![Latest Stable Version](https://poser.pugx.org/leyer/translation-addition/v/stable.svg)](https://packagist.org/packages/leyer/translation-addition) [![Total Downloads](https://poser.pugx.org/leyer/translation-addition/downloads.svg)](https://packagist.org/packages/leyer/translation-addition) [![Latest Unstable Version](https://poser.pugx.org/leyer/translation-addition/v/unstable.svg)](https://packagist.org/packages/leyer/translation-addition) [![License](https://poser.pugx.org/leyer/translation-addition/license.svg)](https://packagist.org/packages/leyer/translation-addition)
 
@@ -24,7 +24,7 @@ public function registerBundles()
 }
 ```
 
-Publish assets:
+If you use the AsseticBundle, you should publish this bundle's assets:
 
 ``` yaml
 assetic:
@@ -59,7 +59,7 @@ jms_translation:
             output_dir: %kernel.root_dir%/Resources/translations
 ```
 
-If you want to used your own adapter, an interface is available [TranslationUpdaterInterface](https://github.com/adrienrusso/TranslationAdditionBundle/blob/master/Model/TranslationUpdaterInterface.php):
+If you want to used your own updater, an interface is available [TranslationUpdaterInterface](https://github.com/adrienrusso/TranslationAdditionBundle/blob/master/Model/TranslationUpdaterInterface.php):
 
 ``` yaml
 leyer_translation_addition:
