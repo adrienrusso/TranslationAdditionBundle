@@ -1,0 +1,14 @@
+parameters:
+    leyer.translation_addition.translation.jms_updater_adapter.class: Leyer\TranslationAdditionBundle\Translation\JMSUpdaterAdapter
+
+services:
+    leyer.translation_addition.translation.jms_updater_adapter:
+        class: %leyer.translation_addition.translation.jms_updater_adapter.class%
+        arguments:
+            - @jms_translation.updater
+            - @jms_translation.config_factory
+            - @jms_translation.file_writer
+            - @jms_translation.loader_manager
+
+    leyer.updater:
+        alias: leyer.translation_addition.translation.jms_updater_adapter

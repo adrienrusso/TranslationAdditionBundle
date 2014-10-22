@@ -18,11 +18,11 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('leyer_translation_addition');
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
+        $rootNode = $treeBuilder
+            ->root('leyer_translation_addition')
+            ->children()
+                ->scalarNode('updater')->isRequired()->end()
+            ->end();
 
         return $treeBuilder;
     }
