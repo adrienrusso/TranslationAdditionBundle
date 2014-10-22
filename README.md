@@ -46,7 +46,7 @@ Usage
 
 Inline edition require a translation updater.
 
-If you used [JMSTranslationBundle](https://github.com/schmittjoh/JMSTranslationBundle) an adapter updater is available. Don't forget to add at least one configuration:
+If you used [JMSTranslationBundle](https://github.com/schmittjoh/JMSTranslationBundle) an adapter updater is already available. Don't forget to add at least one configuration:
 
 ``` yaml
 leyer_translation_addition:
