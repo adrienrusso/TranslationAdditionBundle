@@ -40,7 +40,7 @@ Usage
 
 Inline edition require a translation updater.
 
-If you used the jms adapter don't forget to add at least one configuration:
+If you used [https://github.com/schmittjoh/JMSTranslationBundle] an adapter updater is available. Don't forget to add at least one configuration:
 
 ``` yaml
 leyer_translation_addition:
@@ -53,7 +53,7 @@ jms_translation:
             output_dir: %kernel.root_dir%/Resources/translations
 ```
 
-If you want to used your own adapter an interface is available [https://github.com/adrienrusso/TranslationAdditionBundle/blob/master/Model/TranslationUpdaterInterface.php]:
+If you want to used your own adapter, an interface is available [https://github.com/adrienrusso/TranslationAdditionBundle/blob/master/Model/TranslationUpdaterInterface.php]:
 
 ``` yaml
 leyer_translation_addition:
