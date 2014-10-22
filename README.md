@@ -30,9 +30,9 @@ Publish assets:
 php app/console assets:install --symlink web
 ```
     
-JQuery is required for inline edition [https://github.com/jquery/jquery], it can be installed with [http://bower.io/].
+[JQuery](https://github.com/jquery/jquery) is required for inline edition, it can be installed with [bower](http://bower.io/).
 
-A symfony bundle is available here [https://github.com/Spea/SpBowerBundle].
+A symfony bundle is available [here](https://github.com/Spea/SpBowerBundle).
     
 Usage
 ------------
@@ -40,7 +40,7 @@ Usage
 
 Inline edition require a translation updater.
 
-If you used [https://github.com/schmittjoh/JMSTranslationBundle] an adapter updater is available. Don't forget to add at least one configuration:
+If you used [JMSTranslationBundle](https://github.com/schmittjoh/JMSTranslationBundle) an adapter updater is available. Don't forget to add at least one configuration:
 
 ``` yaml
 leyer_translation_addition:
@@ -53,7 +53,7 @@ jms_translation:
             output_dir: %kernel.root_dir%/Resources/translations
 ```
 
-If you want to used your own adapter, an interface is available [https://github.com/adrienrusso/TranslationAdditionBundle/blob/master/Model/TranslationUpdaterInterface.php]:
+If you want to used your own adapter, an interface is available [TranslationUpdaterInterface](https://github.com/adrienrusso/TranslationAdditionBundle/blob/master/Model/TranslationUpdaterInterface.php):
 
 ``` yaml
 leyer_translation_addition:
