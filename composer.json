@@ -1,6 +1,6 @@
 {
     "name": "leyer/translation-addition",
-    "type": "library",
+    "type": "bundle",
     "description": "This bundles enables edition of translations directly from your application user interface using Javascript.",
     "keywords": [
         "jms",
