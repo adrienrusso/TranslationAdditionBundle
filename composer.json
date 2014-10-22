@@ -9,7 +9,9 @@
         "inline",
         "edition",
         "symfony",
-        "javascript"
+        "javascript",
+        "i18n",
+        "internationalization"
     ],
     "license": "MIT",
     "authors": [
