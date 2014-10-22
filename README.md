@@ -26,6 +26,12 @@ public function registerBundles()
 
 Publish assets:
 
+``` yaml
+assetic:
+    bundles:
+        - LeyerTranslationAdditionBundle
+```
+
 ``` bash
 php app/console assets:install --symlink web
 ```
