@@ -63,15 +63,16 @@ Now you must include js and css files:
 
 ``` twig
 {% if app.environment == 'dev' %}
-    <script src="{{ asset('bundles/leyertranslationaddition/js/translator.js') }}" type="text/javascript">
-            jQuery.noConflict();
-            (function($) {
-                var LeyerTranslator;
-                $(function() {
-                    LeyerTranslator = new Leyer.Translator();
-                });
-            })(jQuery);
-        </script>
+    <script src="{{ asset('bundles/leyertranslationaddition/js/translator.js') }}" type="text/javascript"></script>
+    <script type="text/javascript">
+        jQuery.noConflict();
+        (function($) {
+            var LeyerTranslator;
+            $(function() {
+                LeyerTranslator = new Leyer.Translator();
+            });
+        })(jQuery);
+    </script>
 {% endif %}
 ```
 

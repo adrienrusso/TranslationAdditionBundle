@@ -2,9 +2,6 @@
 
 namespace Leyer\TranslationAdditionBundle\Templating\Helper;
 
-use JMS\TranslationBundle\Translation\ConfigFactory;
-use JMS\TranslationBundle\Translation\LoaderManager;
-use JMS\TranslationBundle\Util\FileUtils;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Bundle\FrameworkBundle\Templating\Helper\TranslatorHelper as BaseTranslatorHelper;
@@ -27,11 +24,6 @@ class TranslatorHelper extends Helper
     protected $translator;
 
     /**
-     * @var ConfigFactory
-     */
-    protected $config;
-
-    /**
      * @var RouterInterface
      */
     protected $router;
@@ -39,22 +31,17 @@ class TranslatorHelper extends Helper
     /**
      * @param BaseTranslatorHelper $helper
      * @param TranslatorInterface  $translator
-     * @param ConfigFactory        $config
      * @param RouterInterface      $router
      */
     public function __construct(
         BaseTranslatorHelper $helper,
         TranslatorInterface $translator,
-        ConfigFactory $config,
-        LoaderManager $loader,
         RouterInterface $router
     )
     {
         $this->translatorHelper = $helper;
         $this->translator       = $translator;
         $this->router           = $router;
-        $this->loader           = $loader;
-        $this->config           = $config;
     }
 
     /**
@@ -105,47 +92,24 @@ class TranslatorHelper extends Helper
             $class[] = 'untranslated';
         }
 
-        if ($config = $this->getConfigName($domain)) {
-            $startTag =  vsprintf(
-                "<ins class='%s' data-url='%s' data-id='%s' data-value='%s' contenteditable='false'>",
-                array(
-                    implode(' ', $class),
-                    $this->router->generate(
-                        'jms_translation_update_message',
-                        [
-                            'config' => $config,
-                            'domain' => $domain,
-                            'locale' => $locale,
-                            'id'     => $id
+        $startTag =  vsprintf(
+            "<ins class='%s' data-url='%s' data-id='%s' data-value='%s' contenteditable='false'>",
+            [
+                implode(' ', $class),
+                $this->router->generate(
+                    'leyer_translator_message',
+                    [
+                        'domain' => $domain,
+                        'locale' => $locale,
 
-                        ]
-                    )."?id=$id",
-                    $id,
-                    $trans
-                )
-            );
+                    ]
+                )."?id=$id",
+                $id,
+                $trans
+            ]
+        );
 
-            return sprintf('%s%s%s', $startTag, $trans, '</ins>');
-        }
-
-        return $trans;
-    }
-
-
-    /**
-     * @param $domain
-     *
-     * @return string|null
-     */
-    private function getConfigName($domain)
-    {
-        foreach ($this->config->getNames() as $config) {
-            $translationsDir = $this->config->getConfig($config, 'en')->getTranslationsDir();
-            $files = FileUtils::findTranslationFiles($translationsDir);
-            if (isset($files[$domain])) {
-                return $config;
-            }
-        }
+        return sprintf('%s%s%s', $startTag, $trans, '</ins>');
     }
 
     /**

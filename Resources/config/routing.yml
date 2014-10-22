@@ -1,0 +1,4 @@
+leyer_translator_message:
+    path: /{domain}/{locale}
+    defaults: { _controller: LeyerTranslationAdditionBundle:Translator:message }
+    requirements: { _method: PUT }
