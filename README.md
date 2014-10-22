@@ -1,7 +1,7 @@
 TranslationAdditionBundle
 =========================
 
-This bundle adds some translation features that can be usefull during the developpement process.
+This bundle adds some translation features that can be useful during the development process.
 
 [![Latest Stable Version](https://poser.pugx.org/leyer/translation-addition/v/stable.svg)](https://packagist.org/packages/leyer/translation-addition) [![Total Downloads](https://poser.pugx.org/leyer/translation-addition/downloads.svg)](https://packagist.org/packages/leyer/translation-addition) [![Latest Unstable Version](https://poser.pugx.org/leyer/translation-addition/v/unstable.svg)](https://packagist.org/packages/leyer/translation-addition) [![License](https://poser.pugx.org/leyer/translation-addition/license.svg)](https://packagist.org/packages/leyer/translation-addition)
 
@@ -36,20 +36,16 @@ A symfony bundle is available here [https://github.com/Spea/SpBowerBundle].
     
 Usage
 ------------
-#### Edit translation inline with JMSTranslationBundle
+#### Edit translation inline
 
-Inline edtion require the Translation Web UI of [https://github.com/schmittjoh/JMSTranslationBundle], please refer to [http://jmsyst.com/bundles/JMSTranslationBundle].
+Inline edition require a translation updater.
 
-``` yaml
-JMSTranslationBundle_ui:
-   resource: @JMSTranslationBundle/Controller/
-   type:     annotation
-   prefix:   /_trans
-```
-
-At least one configuration must be present:
+If you used the jms adapter don't forget to add at least one configuration:
 
 ``` yaml
+leyer_translation_addition:
+    updater: jms_updater
+    
 jms_translation:
     configs:
         app:
@@ -57,7 +53,12 @@ jms_translation:
             output_dir: %kernel.root_dir%/Resources/translations
 ```
 
-The translation api is now available.
+If you want to used your own adapter an interface is available [https://github.com/adrienrusso/TranslationAdditionBundle/blob/master/Model/TranslationUpdaterInterface.php]:
+
+``` yaml
+leyer_translation_addition:
+    updater: my_adapter_definition
+```
 
 Now you must include js and css files:
 
