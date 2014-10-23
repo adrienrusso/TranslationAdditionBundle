@@ -1,0 +1,8 @@
+parameters:
+    leyer.translation_addition.controller.translator.class: Leyer\TranslationAdditionBundle\Controller\TranslatorController
+
+services:
+    leyer.translation_addition.controller.translator:
+        class: %leyer.translation_addition.controller.translator.class%
+        arguments:
+            - @leyer.updater

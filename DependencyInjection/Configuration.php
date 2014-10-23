@@ -21,7 +21,14 @@ class Configuration implements ConfigurationInterface
         $rootNode = $treeBuilder
             ->root('leyer_translation_addition')
             ->children()
-                ->scalarNode('updater')->isRequired()->end()
+                ->arrayNode('inline_translation')
+                    ->children()
+                        ->scalarNode('updater')
+                            ->cannotBeEmpty()
+                            ->defaultValue('jms_updater')
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;

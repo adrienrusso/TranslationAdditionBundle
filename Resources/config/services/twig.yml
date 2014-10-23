@@ -1,14 +1,8 @@
 parameters:
     leyer.translation_addition.templating.helper.translator.class: Leyer\TranslationAdditionBundle\Templating\Helper\TranslatorHelper
     leyer.translation_addition.templating.extension.translation.class: Leyer\TranslationAdditionBundle\Templating\Twig\TranslationExtension
-    leyer.translation_addition.controller.translator.class: Leyer\TranslationAdditionBundle\Controller\TranslatorController
 
 services:
-    leyer.translation_addition.controller.translator:
-        class: %leyer.translation_addition.controller.translator.class%
-        arguments:
-            - @leyer.updater
-
     leyer.translation_addition.templating.helper.translator:
         class: %leyer.translation_addition.templating.helper.translator.class%
         arguments:

@@ -24,14 +24,17 @@ class LeyerTranslationAdditionExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        if ($config['updater'] == 'jms_updater') {
-            $loader->load('services/jms.yml');
-        } else {
-            $container->addAliases([
-                'leyer.updater' => $config['updater']
-            ]);
-        }
+        if (isset($config['inline_translation'])) {
+            $loader->load('services/twig.yml');
+            $loader->load('services/controller.yml');
 
-        $loader->load('services.yml');
+            if ($config['inline_translation']['updater'] == 'jms_updater') {
+                $loader->load('services/jms.yml');
+            } else {
+                $container->addAliases([
+                    'leyer.updater' => $config['updater']
+                ]);
+            }
+        }
     }
 }

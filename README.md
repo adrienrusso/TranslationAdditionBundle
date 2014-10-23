@@ -50,7 +50,7 @@ If you used [JMSTranslationBundle](https://github.com/schmittjoh/JMSTranslationB
 
 ``` yaml
 leyer_translation_addition:
-    updater: jms_updater
+    inline_translation: ~
     
 jms_translation:
     configs:
@@ -63,7 +63,8 @@ If you want to used your own updater, you must implement [TranslationUpdaterInte
 
 ``` yaml
 leyer_translation_addition:
-    updater: my_adapter_definition
+    inline_translation:
+        updater: my_adapter_definition
 ```
 
 Now you must include js and css files:

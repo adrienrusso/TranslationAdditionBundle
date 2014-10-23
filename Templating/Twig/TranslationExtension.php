@@ -76,6 +76,6 @@ class TranslationExtension extends \Twig_Extension
      */
     public function getName()
     {
-        return 'it_translator';
+        return 'leyer_translator';
     }
 }

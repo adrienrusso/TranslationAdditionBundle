@@ -80,6 +80,7 @@ Leyer.Translator.prototype = {
                 message: trans.text()
             },
             success: function() {
+                trans.removeClass('untranslated');
                 trans.removeClass('leyer-flash');
                 trans.attr('title', '');
             },
