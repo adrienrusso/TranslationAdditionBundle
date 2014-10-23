@@ -93,3 +93,7 @@ Leyer.Translator.prototype = {
         });
     }
 }
+
+jQuery(document).ready(function($) {
+    LeyerTranslator = new Leyer.Translator();
+});
