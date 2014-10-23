@@ -85,9 +85,10 @@ Leyer.Translator.prototype = {
                 trans.attr('title', '');
             },
             error: function(response) {
+                var responseText = jQuery.parseJSON(response.responseText);
                 trans.removeClass('leyer-flash');
                 trans.addClass('leyer-error');
-                trans.attr('title', response.statusText);
+                trans.attr('title', responseText.message);
             }
         });
     }

@@ -4,6 +4,7 @@ namespace Leyer\TranslationAdditionBundle\Controller;
 
 use Leyer\TranslationAdditionBundle\Model\TranslationUpdaterInterface;
 use Os\CoreBundle\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -35,13 +36,24 @@ class TranslatorController
      */
     public function messageAction(Request $request, $domain, $locale)
     {
-        $this->updater->update(
-            $request->query->get('id'),
-            $request->get('message'),
-            $domain,
-            $locale
-        );
+        try {
+            $this->updater->update(
+                $request->query->get('id'),
+                $request->get('message'),
+                $domain,
+                $locale
+            );
 
-        return new Response();
+            return new JsonResponse();
+        } catch (\Exception $e) {
+
+            return new JsonResponse(
+                [
+                    'code'    => $e->getCode(),
+                    'message' => $e->getMessage()
+                ],
+                500
+            );
+        }
     }
 }
