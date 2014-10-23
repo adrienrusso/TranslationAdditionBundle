@@ -49,13 +49,9 @@ class TranslatorHelper extends Helper
      */
     public function trans($id, array $parameters = array(), $domain = 'messages', $locale = null)
     {
-        if (!isset($locale)) {
-            $locale = $this->translator->getLocale();
-        }
-
         $trans = $this->translatorHelper->trans($id, $parameters, $domain, $locale);
 
-        return $this->wrap($id, $trans, $domain, $locale);
+        return $this->wrap($id, $trans, $domain);
 
     }
 
@@ -64,13 +60,9 @@ class TranslatorHelper extends Helper
      */
     public function transChoice($id, $number, array $parameters = array(), $domain = 'messages', $locale = null)
     {
-        if (!isset($locale)) {
-            $locale = $this->translator->getLocale();
-        }
-
         $trans = $this->translatorHelper->transChoice($id, $number, $parameters, $domain, $locale);
 
-        return $this->wrap($id, $trans, $domain, $locale);
+        return $this->wrap($id, $trans, $domain);
     }
 
     /**
@@ -81,11 +73,10 @@ class TranslatorHelper extends Helper
      * @param        $id
      * @param        $trans
      * @param string $domain
-     * @param null   $locale
      *
      * @return string
      */
-    public function wrap($id, $trans, $domain = 'messages', $locale = null)
+    public function wrap($id, $trans, $domain = 'messages')
     {
         $class = ['leyer-translator'];
         if($id === $trans) {
@@ -100,7 +91,7 @@ class TranslatorHelper extends Helper
                     'leyer_translator_message',
                     [
                         'domain' => $domain,
-                        'locale' => $locale,
+                        'locale' => $this->translator->getLocale(),
 
                     ]
                 )."?id=$id",
