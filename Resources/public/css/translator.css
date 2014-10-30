@@ -9,8 +9,12 @@
     display: none !important;
 }
 
-.leyer-button.save {
-    display: inline !important;
+.leyer-button.save, .leyer-button.close{
+    display: inline-block !important;
+}
+
+.leyer-translator-container{
+    display: inline;
 }
 
 .leyer-translator-container:hover .leyer-button {
@@ -40,4 +44,23 @@
     animation-timing-function: linear;
     animation-iteration-count:infinite;
     -webkit-animation-iteration-count:infinite;
+}
+
+.leyer-tooltip
+{
+    position: absolute !important;
+    border-color: #2a2a2a;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    padding: 10px;
+    background: #e9eaee;
+    z-index: 1000;
+    width: auto !important;
+    margin-top: 5px;
+}
+
+.leyer-tooltip .leyer-textarea
+{
+    resize: none;
 }

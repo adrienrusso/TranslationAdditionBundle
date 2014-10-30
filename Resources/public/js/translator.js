@@ -16,68 +16,68 @@ Leyer.Translator.prototype = {
         jQuery('body').on('mouseover', 'ins.leyer-translator' ,function(e) {
             if (jQuery(e.currentTarget).closest('.leyer-translator-container').length == 0) {
                 jQuery(e.currentTarget).wrap(
-                    jQuery('<span/>', {
-                        'class': 'leyer-translator-container'
-                    })
+                    jQuery('<span/>', {'class': 'leyer-translator-container'})
                 );
-                jQuery('<a/>', {
-                    'href': '#',
-                    'data-parent': jQuery(e.currentTarget).data('id'),
-                    'class': 'leyer-button edit',
-                    'text': 'Edit'
-                }).insertAfter(e.currentTarget);
+                jQuery('<a/>', {'href': '#', 'class': 'leyer-button edit','text': 'Edit'}).insertAfter(e.currentTarget);
             }
         });
-
-        jQuery('body').on('mouseleave', '.leyer-translator-container' ,function(e) {
-            var trans = jQuery(e.currentTarget).find('ins.leyer-translator');
-            if( jQuery(e.currentTarget).find('.leyer-button.save').length == 0 || trans.data('value') == trans.text()) {
-                self.removeContainer(
-                    jQuery(e.currentTarget)
-                );
-            }
-        });
-
         jQuery('body').on('click', '.leyer-button.edit' ,function(e) {
-            jQuery(e.currentTarget).text('Save')
-                .removeClass('edit')
-                .addClass('save')
-                .closest('.leyer-translator-container')
-                    .find('ins.leyer-translator')
-                    .attr('contenteditable', true)
-                    .focus();
+            var trans = jQuery(e.currentTarget).closest('.leyer-translator-container').find('ins.leyer-translator');
+            jQuery('<div/>', {
+                'value': trans.data('transValue'),
+                'class': 'leyer-tooltip',
+                'css': {
+                    'left': trans.position().left,
+                    'top': trans.position().bottom,
+                    'width': trans.width()
+                }
+            }).append(
+                jQuery('<textarea/>', {
+                    'value': trans.data('transValue'),
+                    'class': 'leyer-textarea',
+                    'css': {
+                        'width': trans.width() < 100 ? 100 : trans.width(),
+                        'height': trans.height() < 50 ? 50 : trans.height()
+                    }
+                }),
+                jQuery('<a/>', {'href': '#', 'class': 'leyer-button save', 'text': 'Save'}),
+                jQuery('<a/>', {'href': '#', 'class': 'leyer-button close', 'text': 'Close'})
+            ).insertAfter(trans);
+
             e.stopPropagation();
+            e.preventDefault();
         });
-
-        jQuery('body').on('click', '.leyer-button.save' ,function(e) {
-            var trans = jQuery(e.currentTarget)
-                .closest('.leyer-translator-container')
-                .find('ins.leyer-translator');
-
-            self.save(trans);
-            self.removeContainer(
-                jQuery(e.currentTarget).closest('.leyer-translator-container')
-            );
+        jQuery('body').on('click', '.leyer-button.close' ,function(e) {
+            self.removeContainer(jQuery(e.currentTarget).closest('.leyer-translator-container'));
             e.stopPropagation();
+            e.preventDefault();
+        });
+        jQuery('body').on('click', '.leyer-button.save' ,function(e) {
+            var container = jQuery(e.currentTarget).closest('.leyer-translator-container');
+            self.save(
+                container.find('ins.leyer-translator'),
+                container.find('textarea.leyer-textarea').val()
+            );
+
+            e.stopPropagation();
+            e.preventDefault();
         });
     },
     removeContainer: function(container)
     {
         var trans = container.find('ins.leyer-translator');
-        trans.text(trans.data('value'));
+        trans.html(trans.data('value'));
         container.replaceWith(trans);
     },
-    save: function(trans)
+    save: function(trans, value)
     {
-        trans.attr('contenteditable', false);
-        trans.data('value', trans.text());
         trans.addClass('leyer-flash');
-
+        this.removeContainer(trans.closest('.leyer-translator-container'));
         jQuery.ajax({
             type: "PUT",
             url: trans.data('url'),
             data: {
-                message: trans.text()
+                message: value
             },
             success: function() {
                 trans.removeClass('untranslated');

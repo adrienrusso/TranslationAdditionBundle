@@ -51,7 +51,12 @@ class TranslatorHelper extends Helper
     {
         $trans = $this->translatorHelper->trans($id, $parameters, $domain, $locale);
 
-        return $this->wrap($id, $trans, $domain);
+        return $this->wrap(
+            $id,
+            $trans,
+            $this->translatorHelper->trans($id, [], $domain, $locale),
+            $domain
+        );
 
     }
 
@@ -62,7 +67,12 @@ class TranslatorHelper extends Helper
     {
         $trans = $this->translatorHelper->transChoice($id, $number, $parameters, $domain, $locale);
 
-        return $this->wrap($id, $trans, $domain);
+        return $this->wrap(
+            $id,
+            $trans,
+            $this->translatorHelper->transChoice($id, $number, [], $domain, $locale),
+            $domain
+        );
     }
 
     /**
@@ -70,21 +80,22 @@ class TranslatorHelper extends Helper
      * <ins class="%s" data-id="%s" data-domain="%s" data-locale="%s" data-value="%s">%s</ins>
      * Used to detect in-line edition of translations
      *
-     * @param        $id
-     * @param        $trans
+     * @param string $id
+     * @param string $trans
+     * @param string $transValue
      * @param string $domain
      *
      * @return string
      */
-    public function wrap($id, $trans, $domain = 'messages')
+    public function wrap($id, $trans, $transValue, $domain = 'messages')
     {
         $class = ['leyer-translator'];
-        if($id === $trans) {
+        if ($id === $trans) {
             $class[] = 'untranslated';
         }
 
         $startTag =  vsprintf(
-            "<ins class='%s' data-url='%s' data-id='%s' data-value='%s' contenteditable='false'>",
+            "<ins class='%s' data-url='%s' data-id='%s' data-value='%s' data-trans-value='%s'>",
             [
                 implode(' ', $class),
                 $this->router->generate(
@@ -96,7 +107,8 @@ class TranslatorHelper extends Helper
                     ]
                 )."?id=$id",
                 $id,
-                $trans
+                $trans,
+                $transValue
             ]
         );
 
