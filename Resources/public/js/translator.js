@@ -82,6 +82,7 @@ Leyer.Translator.prototype = {
                 parameters: trans.data('parameters')
             },
             success: function(data) {
+                trans.data('transValue', value);
                 trans.removeClass('untranslated');
                 trans.removeClass('leyer-flash');
                 trans.html(data.message);
