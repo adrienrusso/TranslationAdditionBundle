@@ -55,6 +55,7 @@ class TranslatorHelper extends Helper
             $id,
             $trans,
             $this->translatorHelper->trans($id, [], $domain, $locale),
+            $parameters,
             $domain
         );
 
@@ -71,6 +72,7 @@ class TranslatorHelper extends Helper
             $id,
             $trans,
             $this->translatorHelper->transChoice($id, $number, [], $domain, $locale),
+            $parameters,
             $domain
         );
     }
@@ -83,11 +85,12 @@ class TranslatorHelper extends Helper
      * @param string $id
      * @param string $trans
      * @param string $transValue
+     * @param array  $parameters
      * @param string $domain
      *
      * @return string
      */
-    public function wrap($id, $trans, $transValue, $domain = 'messages')
+    public function wrap($id, $trans, $transValue, $parameters = [], $domain = 'messages')
     {
         $class = ['leyer-translator'];
         if ($id === $trans) {
@@ -95,7 +98,7 @@ class TranslatorHelper extends Helper
         }
 
         $startTag =  vsprintf(
-            "<ins class='%s' data-url='%s' data-id='%s' data-value='%s' data-trans-value='%s'>",
+            "<ins class='%s' data-url='%s' data-id='%s' data-value='%s' data-trans-value='%s' data-parameters='%s'>",
             [
                 implode(' ', $class),
                 $this->router->generate(
@@ -108,7 +111,8 @@ class TranslatorHelper extends Helper
                 )."?id=$id",
                 $id,
                 $trans,
-                $transValue
+                $transValue,
+                json_encode($parameters)
             ]
         );
 

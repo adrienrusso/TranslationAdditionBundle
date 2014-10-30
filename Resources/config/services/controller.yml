@@ -6,3 +6,4 @@ services:
         class: %leyer.translation_addition.controller.translator.class%
         arguments:
             - @leyer.updater
+            - @translator

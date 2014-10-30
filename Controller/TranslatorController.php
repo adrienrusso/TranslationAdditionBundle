@@ -6,6 +6,7 @@ use Leyer\TranslationAdditionBundle\Model\TranslationUpdaterInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class TranslatorController
@@ -20,11 +21,18 @@ class TranslatorController
     protected $updater;
 
     /**
-     * @param TranslationUpdaterInterface $updater
+     * @var TranslatorInterface
      */
-    public function __construct(TranslationUpdaterInterface $updater)
+    protected $translator;
+
+    /**
+     * @param TranslationUpdaterInterface $updater
+     * @param TranslatorInterface         $translator
+     */
+    public function __construct(TranslationUpdaterInterface $updater, TranslatorInterface $translator)
     {
-        $this->updater = $updater;
+        $this->updater    = $updater;
+        $this->translator = $translator;
     }
 
     /**
@@ -38,13 +46,15 @@ class TranslatorController
     {
         try {
             $this->updater->update(
-                $request->query->get('id'),
+                $id = $request->query->get('id'),
                 $request->get('message'),
                 $domain,
                 $locale
             );
 
-            return new JsonResponse();
+            return new JsonResponse([
+                'message' => $this->translator->trans($id, $request->get('parameters'), $domain, $locale)
+            ]);
         } catch (\Exception $e) {
 
             return new JsonResponse(
