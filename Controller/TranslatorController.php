@@ -53,7 +53,7 @@ class TranslatorController
             );
 
             return new JsonResponse([
-                'message' => $this->translator->trans($id, $request->get('parameters'), $domain, $locale)
+                'message' => $this->translator->trans($id, $request->get('parameters') ?: [], $domain, $locale)
             ]);
         } catch (\Exception $e) {
 
