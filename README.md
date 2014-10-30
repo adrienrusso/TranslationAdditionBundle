@@ -75,8 +75,6 @@ _leyer_translation_addition:
     prefix:   /_trans
 ```
 
-Configure 
-
 Now you must include js and css files:
 
 ``` twig
