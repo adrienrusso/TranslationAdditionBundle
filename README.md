@@ -67,6 +67,16 @@ leyer_translation_addition:
         updater: my_adapter_definition
 ```
 
+Register the routing in app/config/routing_dev.yml:
+
+``` yaml
+_leyer_translation_addition:
+    resource: "@LeyerTranslationAdditionBundle/Resources/config/routing.yml"
+    prefix:   /_trans
+```
+
+Configure 
+
 Now you must include js and css files:
 
 ``` twig
