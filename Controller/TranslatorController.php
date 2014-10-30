@@ -3,7 +3,7 @@
 namespace Leyer\TranslationAdditionBundle\Controller;
 
 use Leyer\TranslationAdditionBundle\Model\TranslationUpdaterInterface;
-use Os\CoreBundle\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
