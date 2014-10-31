@@ -88,3 +88,7 @@ Now you must include js and css files:
         <link rel="stylesheet" href="{{ asset('bundles/leyertranslationaddition/css/translator.css') }}"/>
 {% endif %}
 ```
+
+To do:
+
+Tooltip css.
