@@ -16,6 +16,16 @@
     display: inline-block !important;
 }
 
+.leyer-button.save::after {
+    content: "Save";
+}
+.leyer-button.close::after {
+   content: "Close";
+}
+.leyer-button.edit::after {
+     content: "Edit";
+}
+
 .leyer-translator-container{
     display: inline;
 }
