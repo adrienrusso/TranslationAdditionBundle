@@ -1,5 +1,8 @@
 .leyer-translator {
     text-decoration: none;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
+    font-size: 18px!important;
+    color: #3794C0!important;
 }
 
 .untranslated {
@@ -9,6 +12,7 @@
 
 .leyer-button {
     padding-left: 5px;
+    color: #3794C0;
     display: none !important;
 }
 
@@ -17,10 +21,10 @@
 }
 
 .leyer-button.save::after {
-    content: "Save";
+     content: "Save";
 }
 .leyer-button.close::after {
-   content: "Close";
+     content: "Close";
 }
 .leyer-button.edit::after {
      content: "Edit";
@@ -58,20 +62,6 @@
     animation-iteration-count:infinite;
     -webkit-animation-iteration-count:infinite;
 }
- /*
-.leyer-tooltip
-{
-    position: absolute !important;
-    border-color: #2a2a2a;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    padding: 10px;
-    background: #e9eaee;
-    z-index: 1000;
-    width: auto !important;
-    margin-top: 5px;
-}      */
 
 .leyer-tooltip
 {
