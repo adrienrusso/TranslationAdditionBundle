@@ -23,6 +23,12 @@
     color: #aaa!important
 }
 
+.leyer-button.edit{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
+    font-size: 18px!important;
+    color: #3794C0!important;
+}
+
 .leyer-button.save::after {
      content: "Save";
 }
@@ -74,7 +80,7 @@
     text-align: left!important;
     position: absolute !important;
     width: 225px;
-    height: 155px;
+    height: 170px;
     padding: 10px;
     background: #FFFFFF;
     -webkit-border-radius: 6px;
@@ -115,5 +121,6 @@
 .leyer-tooltip .leyer-textarea
 {
     resize: none;
-    margin: 0
+    margin: 5px 0;
+    border: solid 1px #ccc!important;
 }
