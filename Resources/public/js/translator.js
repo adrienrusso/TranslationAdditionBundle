@@ -1,6 +1,8 @@
 var Leyer = {
-    Translator: function(options) {
-        this.options = jQuery.extend({}, this.defaults, options);
+    Translator: function(element, options) {
+        this.opts = $.extend({}, this.defaults, options);
+        this.$element = $(element);
+        this.data = $(element).data('translation');
         this.init();
     }
 };
@@ -9,111 +11,147 @@ Leyer.Translator.prototype = {
     constructor: Leyer.Translator,
 
     defaults: {
-        select: {
-            container:    '.leyer-translator-container',
-            ins:          'ins.leyer-translator',
-            input:        'textarea.leyer-textarea',
-            tooltip:      '.leyer-tooltip',
-            button:       '.leyer-button',
-            flash:        'leyer-flash',
-            untranslated: 'untranslated',
-            error:        'leyer-error'
-        },
-        tpl: {
-            button:  jQuery('<a/>', {'class': 'leyer-button'}),
-            wrapper: jQuery('<span/>', {'class': 'leyer-translator-container'}),
-            tooltip: jQuery('<div/>', {'class': 'leyer-tooltip'}),
-            input:   jQuery('<textarea/>', {'class': 'leyer-textarea'})
-        }
+        ins:          '.leyer-translator',
+        input:        '.leyer-textarea',
+        tooltip:      '.leyer-tooltip',
+        btn:          '.leyer-button',
+        flash:        '.leyer-flash',
+        untranslated: '.untranslated',
+        error:        '.leyer-error'
     },
 
-    init: function() {
-        this.bindEvents();
+    timer: null,
+
+    init: function () {
+        this.templating();
+        this.listen();
     },
-    bindEvents: function() {
+
+    templating: function() {
+        this.tpls = {
+            btn:     $('<a/>').addClass(this.opts.btn.replace('.', '')),
+            tooltip: $('<div/>').addClass(this.opts.tooltip.replace('.', '')).html('Translate'),
+            input:   $('<textarea/>').addClass(this.opts.input.replace('.', ''))
+        };
+    },
+
+    listen: function () {
         var self = this;
-        jQuery('body').on('mouseover', self.options.select.ins, function (e) {
-            if (jQuery(this).closest(self.options.select.container).length === 0) {
-                jQuery(this).wrap(
-                    self.options.tpl.wrapper
+        this.$element.on('mouseenter', function (e) {
+            if ($(this).find(self.opts.btn).length === 0) {
+                $(this).append(
+                    self.tpls.btn.clone().addClass('edit')
                 );
-                self.options.tpl.button.clone().addClass('edit').insertAfter(jQuery(this));
             }
         });
 
-        jQuery('body').on('click', self.options.select.button, function (e) {
-            var $container = jQuery(this).closest(self.options.select.container);
+        this.$element.parent().on('click', function(e) {
+           if ($(this).find(self.opts.tooltip).length > 0) {
+               e.preventDefault();
+           }
+        });
 
+        this.$element.on('click', self.opts.btn, function (e) {
             e.stopPropagation();
             e.preventDefault();
 
-            if (jQuery(this).hasClass('edit'))
-                self.createToolTip($container.find(self.options.select.ins));
+            if ($(this).hasClass('edit'))
+                self.show();
 
-            if (jQuery(this).hasClass('close'))
-                self.removeContainer($container);
+            if ($(this).hasClass('close'))
+                self.close();
 
-            if (jQuery(this).hasClass('save'))
-                self.save(
-                    $container.find(self.options.select.ins),
-                    $container.find(self.options.select.input).val()
-                );
+            if ($(this).hasClass('save'))
+                self.save();
         });
 
+        $(window).on('resize', function(){
+            if (self.$element.find(self.opts.tooltip).length > 0) {
+                clearTimeout(self.timer);
+                self.timer = setTimeout(self.move(), 100);
+            }
+        });
     },
-    createToolTip: function(trans){
-        jQuery(this.options.select.tooltip).remove();
-        this.options.tpl.tooltip.clone()
-            .val(trans.data('transValue'))
-            .css({
-                'left': trans.position().left,
-                'width': trans.width()
-            }).append(
-                this.options.tpl.input.clone()
-                    .val(trans.data('transValue'))
+    move: function() {
+         this.$element.find(this.opts.tooltip).css({
+            'left': this.$element.position().left
+         });
+    },
+    show: function(){
+        console.log('show')
+        this.close();
+        $(this.$element).append(
+            this.tpls.tooltip.clone()
+                .val(this.data.transValue)
+                .css({
+                    'left': this.$element.position().left,
+                    'width': this.$element.width() < 225 ? 225 : this.$element.width()
+                }).append(
+                this.tpls.input.clone()
+                    .val(this.data.transValue)
                     .css({
-                        'width': trans.width() < 200 ? 200 : trans.width(),
-                        'height': trans.height() < 100 ? 100 : trans.height()
+                        'width': this.$element.width() < 225 ? 200 : this.$element.width() - 25,
+                        'height': this.$element.height() < 155 ? 100 : this.$element.height()
                     }),
-                this.options.tpl.button.clone().addClass('save'),
-                this.options.tpl.button.clone().addClass('close')
-        ).insertAfter(trans);
+                this.tpls.btn.clone().addClass('save'),
+                this.tpls.btn.clone().addClass('close')
+            )
+        );
+        this.$element.find('.edit').remove();
     },
-    removeContainer: function(container)
+    close: function()
     {
-        var trans = container.find(this.options.select.ins);
-        trans.html(trans.data('value'));
-        container.replaceWith(trans);
+        this.$element.html(this.data.trans);
+        $(this.opts.tooltip).remove();
     },
-    save: function(trans, value)
+    save: function()
     {
         var self = this;
-        trans.addClass(this.options.select.flash);
-        this.removeContainer(trans.closest(this.options.select.container));
-        jQuery.ajax({
+        this.$element.addClass(this.opts.flash.replace('.', ''));
+        $.ajax({
             type: "PUT",
-            url: trans.data('url'),
+            url: this.data.url,
             data: {
-                message: value,
-                parameters: trans.data('parameters')
+                id: this.data.key,
+                message: this.$element.find(this.opts.input).val(),
+                parameters: this.data.parameters
             },
             success: function(data) {
-                trans.data('transValue', value);
-                trans.removeClass(self.options.select.untranslated);
-                trans.removeClass(self.options.select.flash);
-                trans.html(data.message);
-                trans.attr('title', '');
+                self.data.transValue = self.$element.find(self.opts.input).val();
+                self.$element.removeClass(
+                    self.opts.untranslated.replace('.', '') + self.opts.flash.replace('.', ' ')
+                );
+                self.data.trans = data.message;
+                self.$element.attr('title', '');
+                self.close();
             },
             error: function(response) {
-                var responseText = jQuery.parseJSON(response.responseText);
-                trans.removeClass(self.options.select.flash);
-                trans.addClass(self.options.select.error);
-                trans.attr('title', responseText.message);
+                var responseText = $.parseJSON(response.responseText);
+                self.$element.removeClass(self.opts.flash.replace('.', ''));
+                self.$element.addClass(self.opts.error.replace('.', ''));
+                self.$element.attr('title', responseText.message);
+                self.close();
             }
         });
     }
 };
 
+
+/**
+ * new Widget Declaration
+ */
+$.fn.LeyerTranslator = function(options) {
+    return this.each(function(){
+        var data = $(this).data('translator');
+        if (!data) {
+            $(this).data('translator', (data = new Leyer.Translator(this, $.extend(true, {}, options))));
+        }
+        if (typeof option === 'string') {
+            data[option]();
+        }
+    });
+};
+
 jQuery(document).ready(function($) {
-    LeyerTranslator = new Leyer.Translator();
+    $('ins.leyer-translator').LeyerTranslator();
 });

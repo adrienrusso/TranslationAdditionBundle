@@ -98,21 +98,23 @@ class TranslatorHelper extends Helper
         }
 
         $startTag =  vsprintf(
-            "<ins class='%s' data-url='%s' data-id='%s' data-value='%s' data-trans-value='%s' data-parameters='%s'>",
+            "<ins class='%s' data-translation='%s'>",
             [
                 implode(' ', $class),
-                $this->router->generate(
-                    'leyer_translator_message',
-                    [
-                        'domain' => $domain,
-                        'locale' => $this->translator->getLocale(),
+                json_encode([
+                        "url" => $this->router->generate(
+                            'leyer_translator_message',
+                            [
+                                'domain' => $domain,
+                                'locale' => $this->translator->getLocale(),
 
-                    ]
-                )."?id=$id",
-                $id,
-                $trans,
-                $transValue,
-                json_encode($parameters)
+                            ]
+                        ),
+                        "key" => $id,
+                        "trans" => $trans,
+                        "transValue" => $transValue,
+                        "params" => $parameters
+                ])
             ]
         );
 

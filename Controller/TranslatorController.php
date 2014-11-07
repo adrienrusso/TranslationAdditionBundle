@@ -46,7 +46,7 @@ class TranslatorController
     {
         try {
             $this->updater->update(
-                $id = $request->query->get('id'),
+                $id = $request->get('id'),
                 $request->get('message'),
                 $domain,
                 $locale
