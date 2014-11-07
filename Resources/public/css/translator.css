@@ -49,6 +49,10 @@
     display: inline !important;
 }
 
+.leyer-translator:hover {
+    outline: 1px dashed #aaa !important;
+}
+
 .leyer-error {
     color: #B80000;
 }
