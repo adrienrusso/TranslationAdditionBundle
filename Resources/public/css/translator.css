@@ -78,12 +78,14 @@
 {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
     font-size: 18px!important;
+    font-weight: normal!important;
+    line-height: 18px!important;
     color: #3794C0!important;
     text-align: left!important;
     position: absolute !important;
     width: 225px;
     height: 170px;
-    padding: 10px;
+    padding: 10px!important;
     background: #FFFFFF;
     -webkit-border-radius: 6px;
     -moz-border-radius: 6px;
