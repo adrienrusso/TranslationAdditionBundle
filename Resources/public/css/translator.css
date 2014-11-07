@@ -26,7 +26,8 @@
 .leyer-button.edit{
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
     font-size: 18px!important;
-    color: #3794C0!important;
+    color: #444!important;
+    text-shadow: #fff 1px 1px 1px;
 }
 
 .leyer-button.save::after {
