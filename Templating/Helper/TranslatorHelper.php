@@ -92,16 +92,15 @@ class TranslatorHelper extends Helper
      */
     public function wrap($id, $trans, $transValue, $parameters = [], $domain = 'messages')
     {
-        $class = ['leyer-translator'];
+        $class = ['trans'];
         if ($id === $trans) {
             $class[] = 'untranslated';
         }
 
         $startTag =  vsprintf(
-            "<ins class='%s' data-translation='%s'>",
+            "<trans data-trans='%s'>",
             [
-                implode(' ', $class),
-                json_encode([
+                base64_encode(json_encode([
                         "url" => $this->router->generate(
                             'leyer_translator_message',
                             [
@@ -114,11 +113,11 @@ class TranslatorHelper extends Helper
                         "trans" => $trans,
                         "transValue" => $transValue,
                         "params" => $parameters
-                ])
+                ]))
             ]
         );
 
-        return sprintf('%s%s%s', $startTag, $trans, '</ins>');
+        return sprintf('%s%s%s', $startTag, $trans, '</trans>');
     }
 
     /**

@@ -2,7 +2,6 @@ var Leyer = {
     Translator: function(element, options) {
         this.opts = $.extend({}, this.defaults, options);
         this.$element = $(element);
-        this.data = $(element).data('translation');
         this.init();
     }
 };
@@ -10,148 +9,217 @@ var Leyer = {
 Leyer.Translator.prototype = {
     constructor: Leyer.Translator,
 
-    defaults: {
-        ins:          '.leyer-translator',
-        input:        '.leyer-textarea',
-        tooltip:      '.leyer-tooltip',
-        btn:          '.leyer-button',
-        flash:        '.leyer-flash',
-        untranslated: '.untranslated',
-        error:        '.leyer-error'
-    },
+    defaults: {},
 
     timer: null,
 
     init: function () {
-        this.templating();
+        this.build();
         this.listen();
     },
 
-    templating: function() {
-        this.tpls = {
-            btn:     $('<a/>').addClass(this.opts.btn.replace('.', '')),
-            tooltip: $('<div/>').addClass(this.opts.tooltip.replace('.', '')).html('Translate'),
-            input:   $('<textarea/>').addClass(this.opts.input.replace('.', ''))
-        };
+    build: function () {
+        if (this.$element.prop('tagName') === 'TRANS') {
+            this.$trans = this.$element.parent();
+            this.$trans.data('trans', $.parseJSON(window.atob(this.$element.data('trans'))));
+            this.$trans.data('translator', this);
+        } else {
+            this.$trans = this.$element;
+            if (typeof this.$element.attr('title') !== typeof undefined) {
+                this.attribute = 'title';
+                this.$trans.data('trans',
+                    $.parseJSON(window.atob($('<div/>', {
+                        'html' : this.$element.attr('title')
+                    }).find('trans').data('trans'))));
+            } else if (typeof this.$element.attr('placeholder') !== typeof undefined) {
+                this.attribute = 'placeholder';
+                this.$trans.data('trans',
+                    $.parseJSON(window.atob($('<div/>', {
+                        'html' : this.$element.attr('placeholder')
+                    }).find('trans').data('trans'))));
+            }
+        }
+        this.data = this.$trans.data('trans');
+        this.$trans.addClass('trans')
     },
 
     listen: function () {
-        var self = this;
-        this.$element.on('mouseenter', function (e) {
-            if ($(this).find(self.opts.btn).length === 0) {
-                $(this).append(
-                    self.tpls.btn.clone().addClass('edit')
-                );
-            }
-        });
+        this.hover(this);
+        this.click(this);
+        this.resizeWindow(this);
+    },
 
-        this.$element.parent().on('click', function(e) {
-           if ($(this).find(self.opts.tooltip).length > 0) {
-               e.preventDefault();
-           }
-        });
+    hover: function (obj) {
+        this.$trans
+            .on('mouseover', function () {
+                if (obj.$trans.find('.trans-btn').length === 0) {
+                    obj.addEditButton();
+                }
+            });
+    },
 
-        this.$element.on('click', self.opts.btn, function (e) {
-            e.stopPropagation();
-            e.preventDefault();
+    click: function (obj) {
+        this.$trans
+            .on('click', '.trans-btn', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                obj[$(this).data('action')](obj);
+            });
+    },
 
-            if ($(this).hasClass('edit'))
-                self.show();
-
-            if ($(this).hasClass('close'))
-                self.close();
-
-            if ($(this).hasClass('save'))
-                self.save();
-        });
-
+    resizeWindow: function(obj) {
         $(window).on('resize', function(){
-            if (self.$element.find(self.opts.tooltip).length > 0) {
-                clearTimeout(self.timer);
-                self.timer = setTimeout(self.move(), 100);
+            if (obj.$modal) {
+                clearTimeout(obj.timer);
+                obj.timer = setTimeout(obj.move(obj.$modal), 100);
+            }
+            if (obj.$edit) {
+                clearTimeout(obj.timer);
+                obj.timer = setTimeout(obj.move(obj.$edit), 100);
             }
         });
     },
-    move: function() {
-         this.$element.find(this.opts.tooltip).css({
-            'left': this.$element.position().left
-         });
+
+    resizeModal: function(obj) {
+        if (this.$trans.outerWidth() > obj.find('textarea').width()) {
+            obj.find('textarea').css('width', this.$trans.outerWidth());
+        }
+
+        if (this.$trans.outerHeight() > obj.find('textarea').height()) {
+            obj.find('textarea').css('height', this.$trans.outerHeight());
+        }
+
     },
-    show: function(){
-        console.log('show')
-        this.close();
-        $(this.$element).append(
-            this.tpls.tooltip.clone()
-                .val(this.data.transValue)
-                .css({
-                    'left': this.$element.position().left,
-                    'width': this.$element.width() < 225 ? 225 : this.$element.width()
-                }).append(
-                this.tpls.input.clone()
-                    .val(this.data.transValue)
-                    .css({
-                        'width': this.$element.width() < 225 ? 200 : this.$element.width() - 25,
-                        'height': this.$element.height() < 155 ? 100 : this.$element.height()
-                    }),
-                this.tpls.btn.clone().addClass('save'),
-                this.tpls.btn.clone().addClass('close')
+
+    addEditButton: function() {
+        this.$trans.append(
+            this.$edit = $('<a/>', {
+                'class': 'trans-btn edit',
+                'html': 'Edit'
+            }).data('action', 'edit')
+        );
+        this.move(this.$edit);
+        this.$edit.fadeIn();
+    },
+
+    edit: function (obj) {
+        this.$edit.remove();
+        $('.trans').lTranslator('externalClose');
+
+        this.$trans.addClass('trans-hover');
+
+        this.$trans.append(
+            this.$modal = $('<div/>', {
+                'class': 'trans-modal'
+            }).append(
+                $('<label/>', {
+                    'class': 'trans-lbl',
+                    'html': 'Translate'
+                }),
+                this.attribute ? $('<div/>', {
+                    'class': 'trans-lgd',
+                    'html': 'Attribute: ' + this.attribute
+                }) :'',
+                $('<div/>', {
+                    'class': 'trans-lgd',
+                    'html': 'Key: ' + this.data.key
+                }),
+                $('<div/>', {
+                    'class': 'trans-lgd',
+                    'html': 'Origin: ' + this.data.transValue
+                }),
+                $('<textarea/>', {
+                    'class': 'trans-texterea'
+                }).val(this.data.trans),
+                $('<a/>', {
+                    'class': 'trans-btn cancel',
+                    'html': 'Cancel'
+                }).data('action', 'hide'),
+                $('<a/>', {
+                    'class': 'trans-btn save',
+                    'html': 'Save'
+                }).data('action', 'save')
             )
         );
-        this.$element.find('.edit').remove();
+        this.move(this.$modal);
+        this.resizeModal(this.$modal);
+        this.$modal.fadeIn();
     },
-    close: function()
-    {
-        this.$element.html(this.data.trans);
-        $(this.opts.tooltip).remove();
+
+    hide: function (obj) {
+        obj.$modal.fadeOut('fast', function() {
+            obj.$modal.remove();
+            obj.$trans.removeClass('trans-hover');
+        });
     },
-    save: function()
-    {
-        var self = this;
-        this.$element.addClass(this.opts.flash.replace('.', ''));
+
+    move: function (obj) {
+        if (obj === this.$edit) {
+            this.$edit.css({
+                'top': this.$trans.position().top + this.$trans.outerHeight() + parseInt(this.$trans.css('marginTop')) - 1,
+                'left': this.$trans.position().left + parseInt(this.$trans.css('marginLeft'))
+            });
+        } else if (obj === this.$modal) {
+            this.$modal.css({
+                'top':  this.$trans.position().top + this.$trans.outerHeight() + parseInt(this.$trans.css('marginTop')) + 4 ,
+                'left': this.$trans.position().left + parseInt(this.$trans.css('marginLeft'))
+            });
+        }
+    },
+
+    save: function (obj) {
+        this.$trans.addClass('flash');
+        obj.hide(obj);
         $.ajax({
             type: "PUT",
-            url: this.data.url,
+            url: obj.data.url,
             data: {
-                id: this.data.key,
-                message: this.$element.find(this.opts.input).val(),
-                parameters: this.data.parameters
+                id: obj.data.key,
+                message: obj.$modal.find('textarea').val(),
+                parameters: obj.data.parameters
             },
             success: function(data) {
-                self.data.transValue = self.$element.find(self.opts.input).val();
-                self.$element.removeClass(
-                    self.opts.untranslated.replace('.', '') + self.opts.flash.replace('.', ' ')
+                obj.data.transValue = obj.$modal.find('textarea').val();
+                obj.$trans.find('>trans').html(data.message);
+                obj.$trans.removeClass(
+                    'untranslated flash'
                 );
-                self.data.trans = data.message;
-                self.$element.attr('title', '');
-                self.close();
+                obj.data.trans = data.message;
+                obj.$trans.attr('title', '');
             },
             error: function(response) {
                 var responseText = $.parseJSON(response.responseText);
-                self.$element.removeClass(self.opts.flash.replace('.', ''));
-                self.$element.addClass(self.opts.error.replace('.', ''));
-                self.$element.attr('title', responseText.message);
-                self.close();
+                obj.$trans.removeClass('flash');
+                obj.$trans.addClass('error');
+                obj.$trans.attr('title', responseText.message);
             }
         });
+    },
+
+    externalClose: function () {
+        if (this.$modal) {
+            this.hide(this);
+        }
     }
+
 };
 
 
 /**
  * new Widget Declaration
  */
-$.fn.LeyerTranslator = function(options) {
+$.fn.lTranslator = function(options) {
     return this.each(function(){
         var data = $(this).data('translator');
-        if (!data) {
+        if (!data || (typeof options !== 'string' && $(this).prop('tagName') === 'TRANS')) {
             $(this).data('translator', (data = new Leyer.Translator(this, $.extend(true, {}, options))));
         }
-        if (typeof option === 'string') {
-            data[option]();
+        if (typeof options === 'string') {
+            data[options]();
         }
     });
 };
 
 jQuery(document).ready(function($) {
-    $('ins.leyer-translator').LeyerTranslator();
+    $('trans, [title^="<trans"], [placeholder^="<trans"]').lTranslator();
 });

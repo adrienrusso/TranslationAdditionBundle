@@ -1,60 +1,17 @@
-.leyer-translator {
-    text-decoration: none;
-    display:block;
-}
-
-.untranslated {
-    color: red;
-    border: 1px solid red;
-}
-
-.leyer-button {
-    padding-left: 5px;
-    color: #3794C0!important;
-    display: none !important;
-}
-
-.leyer-button.save, .leyer-button.close{
-    display: inline-block !important;
-    padding: 0;
-}
-
-.leyer-button.close{
-    float: right;
-    color: #aaa!important
-}
-
-.leyer-button.edit{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
-    font-size: 18px!important;
+.trans:hover, .trans-hover {
+    background: #fafafa!important;
     color: #444!important;
-    text-shadow: #fff 1px 1px 1px;
+    border-radius: 4px!important;
+    border: dotted 1px #999!important;
+    transition: background 1s!important;
 }
 
-.leyer-button.save::after {
-     content: "Save";
-}
-.leyer-button.close::after {
-     content: "Close";
-}
-.leyer-button.edit::after {
-     content: "Edit";
-}
-
-.leyer-translator-container{
-    display: inline;
-}
-
-.leyer-translator:hover .leyer-button {
-    display: inline !important;
-}
-
-.leyer-translator:hover {
-    outline: 1px dashed #aaa !important;
-}
-
-.leyer-error {
+.trans.error {
     color: #B80000;
+}
+
+.trans.untranslated {
+    color: orangered;
 }
 
 @-webkit-keyframes flash {
@@ -65,7 +22,8 @@
     0%, 50%, 100% {opacity: 1;}
     25%, 75% {opacity: 0;}
 }
-.leyer-flash {
+
+.trans.flash {
     -webkit-animation-name: flash;
     animation-name: flash;
     -webkit-animation-duration: 3s;
@@ -78,58 +36,116 @@
     -webkit-animation-iteration-count:infinite;
 }
 
-.leyer-tooltip
-{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif!important;
-    font-size: 18px!important;
-    font-weight: normal!important;
-    line-height: 18px!important;
-    color: #3794C0!important;
-    text-align: left!important;
-    position: absolute !important;
-    width: 225px;
-    height: 170px;
-    padding: 10px!important;
-    background: #FFFFFF;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    border: #aaa solid 2px;
-    margin: 10px 0 0 -5px;
-    z-index:1000;
+.trans-btn {
+    display: block!important;
+    background: #fff!important;
+    color: #428bca!important;
+    font-size: 14px!important;
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif!important;
+    line-height: 14px!important;
+    padding: 5px 10px 5px 10px!important;
+    border: solid 1px #999!important;
+    text-decoration: none!important;
 }
 
-.leyer-tooltip:after
+.trans-btn:hover {
+    display: block!important;
+    background: #fff!important;
+    color: #2a6496!important;
+    text-decoration: none!important;
+    curser: pointer!important;
+}
+
+.trans-btn.edit {
+    display: none;
+    opacity: 0;
+    position: absolute;
+    border: solid 1px #999;
+    border-radius: 0px 0px 4px 4px;
+    border-top: none;
+    z-index: 3000;
+}
+
+.trans-btn.save, .trans-btn.cancel {
+    float: right;
+    margin: 10px 0 0 5px;
+    border-radius: 4px;
+}
+
+.trans:hover .trans-btn.edit {
+    opacity: 1;
+    transition: opacity 0.5s;
+}
+
+.trans-modal {
+    text-align: left;
+    display: none;
+    position: absolute;
+    background: #f2f2f2;
+    font-size: 14px;
+    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    line-height: 14px;
+    padding: 10px;
+    border-radius: 4px;
+    border: solid 1px #999;
+    min-width: 275px;
+    min-height: 100px;
+    box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
+    z-index:10000;
+}
+
+.trans-modal:after
 {
     content: '';
     position: absolute;
     border-style: solid;
-    border-width: 0 10px 10px;
-    border-color: #FFFFFF transparent;
+    border-width: 0 9px 9px;
+    border-color: #f2f2f2 transparent;
     display: block;
     width: 0;
     z-index: 1;
-    top: -10px;
-    left: 19px;
+    top: -8px;
+    left: 9px;
 }
 
-.leyer-tooltip:before
+.trans-modal:before
 {
     content: '';
     position: absolute;
     border-style: solid;
-    border-width: 0 11px 11px;
-    border-color: #aaa transparent;
+    border-width: 0 9px 9px;
+    border-color: #999 transparent;
     display: block;
     width: 0;
     z-index: 0;
-    top: -13px;
-    left: 18px;
+    top: -9px;
+    left: 9px;
 }
 
-.leyer-tooltip .leyer-textarea
-{
-    resize: none;
-    margin: 5px 0;
-    border: solid 1px #ccc!important;
+.trans-lbl {
+    display: block!important;
+    color: #428bca!important;
+    font-size: 18px!important;
+    padding-bottom: 5px!important;
+    border-bottom: solid 1px #999!important;
+    width: 100%!important;
 }
+
+.trans-lgd {
+    display: block;
+    color: #222;
+    font-size: 12px;
+    margin: 5px 0;
+}
+
+.trans-texterea {
+    display: block;
+    resize: none;
+    padding: 5px;
+    border-radius: 4px;
+    border: solid 1px #999;
+    min-width: 275px;
+    min-height: 10px;
+}
+
+
