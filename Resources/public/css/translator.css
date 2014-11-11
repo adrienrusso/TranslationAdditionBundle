@@ -51,6 +51,7 @@
     border: solid 1px #999!important;
     text-decoration: none!important;
     height: 28px!important;
+    text-shadow: none!important;
 }
 
 .trans-btn:after{
@@ -102,6 +103,7 @@
     min-height: 100px;
     box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.25);
     z-index:10000;
+    text-shadow: none!important;
 }
 
 .trans-modal:after
