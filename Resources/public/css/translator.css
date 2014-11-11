@@ -1,5 +1,6 @@
 .trans{
     position: initial!important;
+    text-shadow: none!important;
 }
 
 .trans:hover, .trans-hover {
