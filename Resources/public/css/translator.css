@@ -51,8 +51,9 @@
     padding: 5px 10px 5px 10px!important;
     border: solid 1px #999!important;
     text-decoration: none!important;
-    height: 28px!important;
+    height: 14px!important;
     text-shadow: none!important;
+    box-sizing: initial!important
 }
 
 .trans-btn:after{
