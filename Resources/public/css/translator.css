@@ -7,7 +7,7 @@
     background: #fafafa!important;
     color: #444!important;
     border-radius: 4px!important;
-    border: dotted 1px #999!important;
+    outline: dotted 1px #999!important;
     transition: background 1s!important;
 }
 
@@ -74,7 +74,7 @@
     position: absolute;
     border: solid 1px #999;
     border-radius: 0px 0px 4px 4px;
-    border-top: none;
+    border-top: none!important;
     z-index: 3000;
 }
 

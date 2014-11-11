@@ -156,8 +156,8 @@ Leyer.Translator.prototype = {
     move: function (obj) {
         if (obj === this.$edit) {
             this.$edit.css({
-                'top': this.$trans.position().top + this.$trans.outerHeight() + parseInt(this.$trans.css('marginTop')) - 1,
-                'left': this.$trans.position().left + parseInt(this.$trans.css('marginLeft'))
+                'top': this.$trans.position().top + this.$trans.outerHeight() + parseInt(this.$trans.css('marginTop')) + 1,
+                'left': this.$trans.position().left + parseInt(this.$trans.css('marginLeft')) - 1
             });
         } else if (obj === this.$modal) {
             this.$modal.css({
