@@ -1,4 +1,4 @@
 leyer_translator_message:
     path: /{domain}/{locale}
     defaults: { _controller: leyer.translation_addition.controller.translator:messageAction }
-    requirements: { _method: PUT }
+    requirements: { methods: PUT }
