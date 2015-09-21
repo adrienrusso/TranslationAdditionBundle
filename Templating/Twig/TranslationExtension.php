@@ -30,8 +30,8 @@ class TranslationExtension extends \Twig_Extension
     public function getFilters()
     {
         return array(
-            \Twig_SimpleFilter('trans',       'trans',       array('pre_escape' => 'html', 'is_safe' => array('html'))),
-            \Twig_SimpleFilter('transchoice', 'transchoice', array('pre_escape' => 'html', 'is_safe' => array('html'))),
+            new \Twig_SimpleFilter('trans',       [$this, 'trans'],       array('pre_escape' => 'html', 'is_safe' => array('html'))),
+            new \Twig_SimpleFilter('transchoice', [$this, 'transchoice'], array('pre_escape' => 'html', 'is_safe' => array('html'))),
         );
     }
 
