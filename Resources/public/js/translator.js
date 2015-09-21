@@ -180,7 +180,7 @@ Leyer.Translator.prototype = {
             },
             success: function(data) {
                 obj.data.transValue = obj.$modal.find('textarea').val();
-                obj.$trans.find('>trans').html(data.message);
+                obj.$trans.find('>trans').html(obj.data.transValue);
                 obj.$trans.removeClass(
                     'untranslated flash'
                 );
